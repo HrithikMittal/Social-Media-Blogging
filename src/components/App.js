@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import "../styles/App.css";
 
+import _ from "lodash";
 import { database } from "../firebase";
 
 class App extends Component {
   state = {
     title: "",
-    body: ""
+    body: "",
+    notes: {}
   };
 
   // handle submit
@@ -23,9 +25,27 @@ class App extends Component {
     });
   };
 
+  componentDidMount() {
+    database.on("value", snapshot => {
+      this.setState({ notes: snapshot.val() });
+    });
+  }
+
+  // render notes
+  renderNotes = () => {
+    return _.map(this.state.notes, (note, key) => {
+      return (
+        <div key={key} style={{ border: "10px" }}>
+          <h2>{note.title}</h2>
+          <p>{note.body}</p>
+        </div>
+      );
+    });
+  };
+
   render() {
     return (
-      <div className="App">
+      <div>
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-6 col-sm-offset-3">
@@ -60,6 +80,8 @@ class App extends Component {
                   <button className="btn btn-primary col-sm-12">Save</button>
                 </div>
               </form>
+
+              {this.renderNotes()}
             </div>
           </div>
         </div>
