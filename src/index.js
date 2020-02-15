@@ -9,7 +9,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import { composewithDevTools } from "redux-devtools-extension";
 
-// CREATE REDUX STORE -> REDUCERS -> ACTIONS | applyMiddleware()
+// CREATE REDUX STORE -> REDUCERS -> ACTIONS-Action Type | applyMiddleware()
 const store = createStore(composewithDevTools());
 
 // PROVIDE THE STORE TO REACT
