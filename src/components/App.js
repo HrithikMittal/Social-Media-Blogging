@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../styles/App.css";
+import NoteCard from "./NoteCard";
 
 import _ from "lodash";
 
@@ -35,16 +36,12 @@ class App extends Component {
   renderNotes = () => {
     return _.map(this.props.notes, (note, key) => {
       return (
-        <div key={key} style={{ border: "10px" }}>
-          <h2>{note.title}</h2>
-          <p>{note.body}</p>
-          <button
-            className="btn btn-danger btn-xs"
-            onClick={() => this.props.deleteNote(key)}
-          >
-            Delete
-          </button>
-        </div>
+        <NoteCard
+          key={key}
+          click={() => this.props.deleteNote(key)}
+          title={note.title}
+          body={note.body}
+        />
       );
     });
   };
