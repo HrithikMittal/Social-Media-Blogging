@@ -7,6 +7,8 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { getNotes, saveNotes, deleteNote } from "../actions/notesAction";
 
+import { getUser } from "../actions/userActions";
+
 class App extends Component {
   state = {
     title: "",
@@ -30,6 +32,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getNotes();
+    this.props.getUser();
   }
 
   // render notes
@@ -93,10 +96,14 @@ class App extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    notes: state.notes
+    notes: state.notes,
+    user: state.user
   };
 }
 
-export default connect(mapStateToProps, { getNotes, saveNotes, deleteNote })(
-  App
-);
+export default connect(mapStateToProps, {
+  getNotes,
+  saveNotes,
+  deleteNote,
+  getUser
+})(App);
