@@ -4,6 +4,9 @@ import { Link, Switch, Route, Redirect } from "react-router-dom";
 import App from "../components/App";
 import Login from "../components/Login";
 
+// AUTHENTICATED COMPONENT
+import AuthenticatedComponent from "../components/AuthenticatedComponent";
+
 import { connect } from "react-redux";
 import { getUser, logout } from "../actions/userActions";
 
@@ -50,7 +53,10 @@ const Header = props => {
         </ul>
       </div>
       <Switch>
-        <Route path="/" exact component={App}></Route>
+        <AuthenticatedComponent>
+          <Route path="/" exact component={App}></Route>
+        </AuthenticatedComponent>
+
         <Route path="/login" exact component={Login}></Route>
         <Redirect from="/logout" to="/"></Redirect>
       </Switch>

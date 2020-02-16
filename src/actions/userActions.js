@@ -7,16 +7,24 @@ export function getUser() {
       type: USER_STATUS,
       payload: true
     });
-    auth.onAuthStateChanged(user => {
-      dispatch({
-        type: GET_USER,
-        payload: user
-      });
-      dispatch({
-        type: USER_STATUS,
-        payload: false
-      });
-    });
+    auth.onAuthStateChanged(
+      user => {
+        dispatch({
+          type: GET_USER,
+          payload: user
+        });
+        dispatch({
+          type: USER_STATUS,
+          payload: false
+        });
+      },
+      () => {
+        dispatch({
+          type: USER_STATUS,
+          payload: -1
+        });
+      }
+    );
   };
 }
 

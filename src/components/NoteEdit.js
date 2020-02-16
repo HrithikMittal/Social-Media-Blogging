@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
-import { getNotes, saveNote, deleteNote } from '../actions/notesAction';
-import NoteCard from './NoteCard';
-import { getUser } from '../actions/userAction';
 import { Link } from 'react-router-dom';
+import { editNote } from '../actions/notesAction';
 
-class App extends Component {
+class NoteEdit extends Component {
     constructor(props) {
         super(props);
         // state
         this.state = {
-            title: '',
-            body: ''
+            title: this.props.note.title,
+            body: this.props.note.body
         };
         // bind
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.renderNotes = this.renderNotes.bind(this);
     }
 
     // handle change
@@ -33,53 +29,21 @@ class App extends Component {
         const note = {
             title: this.state.title,
             body: this.state.body,
-            uid: this.props.user.uid
+            uid: this.props.uid
         };
-        this.props.saveNote(note);
+        this.props.editNote(this.props.match.params.id, note);
         this.setState({
             title: '',
             body: ''
         });
-    }
-
-    // render notes
-    renderNotes() {
-        return _.map(this.props.notes, (note, key) => {
-            return (
-                <NoteCard key={key}>
-                    <Link to={`/${key}`}>
-                        <h2>{note.title}</h2>
-                    </Link>
-                    <p>{note.body}</p>
-                    {note.uid === this.props.user.uid && (
-                        <div>
-                            <button className="btn btn-danger btn-xs" onClick={() => this.props.deleteNote(key)}>
-                                Delete
-                            </button>
-                            <button className="btn btn-info btn-xs pull-right">
-                                <Link to={`/${key}/edit`}>Update</Link>
-                            </button>
-                        </div>
-                    )}
-                </NoteCard>
-            );
-        });
+        this.props.history.push('/');
     }
 
     render() {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-sm-2 text-center">
-                        <img
-                            src={this.props.user.photoURL}
-                            height="100px"
-                            className="img img-responsive cirlce"
-                            style={{ padding: '20px' }}
-                        />
-                        <h4 className="username">Welcome back {this.props.user.displayName}</h4>
-                    </div>
-                    <div className="col-sm-10">
+                    <div className="col-sm-6 col-sm-offset-3">
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <input
@@ -106,13 +70,9 @@ class App extends Component {
                             </div>
 
                             <div className="form-group">
-                                <button className="btn btn-primary col-sm-12">Save</button>
+                                <button className="btn btn-primary col-sm-12">Update</button>
                             </div>
                         </form>
-                        <br />
-                        <br />
-                        <br />
-                        {this.renderNotes()}
                     </div>
                 </div>
             </div>
@@ -122,9 +82,9 @@ class App extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        notes: state.notes,
-        user: state.user
+        note: state.notes[ownProps.match.params.id],
+        uid: state.user.uid
     };
 }
 
-export default connect(mapStateToProps, { getNotes, saveNote, deleteNote, getUser })(App);
+export default connect(mapStateToProps, { editNote })(NoteEdit);
