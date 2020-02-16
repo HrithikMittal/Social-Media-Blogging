@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
-        Navbar
+        DIARY 2020
       </Link>
       <button
         className="navbar-toggler"
