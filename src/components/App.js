@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import "../styles/App.css";
 
 import _ from "lodash";
-import { database } from "../firebase";
+
+import { connect } from "react-redux";
+import { getNotes, saveNotes, deleteNote } from "../actions/notesAction";
 
 class App extends Component {
   state = {
@@ -18,7 +20,7 @@ class App extends Component {
       title: this.state.title,
       body: this.state.body
     };
-    database.push(note);
+    this.props.saveNotes(note);
     this.setState({
       title: "",
       body: ""
@@ -26,18 +28,22 @@ class App extends Component {
   };
 
   componentDidMount() {
-    database.on("value", snapshot => {
-      this.setState({ notes: snapshot.val() });
-    });
+    this.props.getNotes();
   }
 
   // render notes
   renderNotes = () => {
-    return _.map(this.state.notes, (note, key) => {
+    return _.map(this.props.notes, (note, key) => {
       return (
         <div key={key} style={{ border: "10px" }}>
           <h2>{note.title}</h2>
           <p>{note.body}</p>
+          <button
+            className="btn btn-danger btn-xs"
+            onClick={() => this.props.deleteNote(key)}
+          >
+            Delete
+          </button>
         </div>
       );
     });
@@ -90,4 +96,12 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state, ownProps) {
+  return {
+    notes: state.notes
+  };
+}
+
+export default connect(mapStateToProps, { getNotes, saveNotes, deleteNote })(
+  App
+);
