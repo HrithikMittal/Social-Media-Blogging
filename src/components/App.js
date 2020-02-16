@@ -48,44 +48,42 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-6 col-sm-offset-3">
-              <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    name="title"
-                    className="form-control no-border"
-                    placeholder="Title..."
-                    onChange={event => {
-                      this.setState({ title: event.target.value });
-                    }}
-                    value={this.state.title}
-                    required
-                  ></input>
-                </div>
-                <div className="form-group">
-                  <textarea
-                    type="text"
-                    name="body"
-                    className="form-control no-border"
-                    placeholder="Body..."
-                    onChange={event => {
-                      this.setState({ body: event.target.value });
-                    }}
-                    required
-                    value={this.state.body}
-                  ></textarea>
-                </div>
-                <div className="form-group">
-                  <button className="btn btn-primary col-sm-12">Save</button>
-                </div>
-              </form>
+      <div className="container">
+        <div className="row text-center">
+          <div className="col-sm-12 col-sm-offset-12">
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="title"
+                  className="form-control no-border"
+                  placeholder="Title..."
+                  onChange={event => {
+                    this.setState({ title: event.target.value });
+                  }}
+                  value={this.state.title}
+                  required
+                ></input>
+              </div>
+              <div className="form-group">
+                <textarea
+                  type="text"
+                  name="body"
+                  className="form-control no-border"
+                  placeholder="Body..."
+                  onChange={event => {
+                    this.setState({ body: event.target.value });
+                  }}
+                  required
+                  value={this.state.body}
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <button className="btn btn-primary col-sm-12">Save</button>
+              </div>
+            </form>
 
-              {this.renderNotes()}
-            </div>
+            {this.renderNotes()}
           </div>
         </div>
       </div>

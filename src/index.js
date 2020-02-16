@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/index.css";
-import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
+
+//  NAVIGATION
+import Header from "./Navigation/Header";
+import { BrowserRouter } from "react-router-dom";
 
 // REDUX
 import { createStore, applyMiddleware } from "redux";
@@ -21,7 +24,9 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <Header />
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );
