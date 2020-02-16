@@ -1,10 +1,13 @@
 import React from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import { Link, Switch, Route, Redirect } from "react-router-dom";
 
 import App from "../components/App";
 import Login from "../components/Login";
 
-const Header = () => {
+import { connect } from "react-redux";
+import { getUser, logout } from "../actions/userActions";
+
+const Header = props => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -30,18 +33,35 @@ const Header = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/login">
-              Login
-            </Link>
+            {props.user == null ? (
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
+            ) : (
+              <Link
+                className="nav-link"
+                onClick={() => props.logout()}
+                to="/logout"
+              >
+                Logout
+              </Link>
+            )}
           </li>
         </ul>
       </div>
       <Switch>
         <Route path="/" exact component={App}></Route>
         <Route path="/login" exact component={Login}></Route>
+        <Redirect from="/logout" to="/"></Redirect>
       </Switch>
     </nav>
   );
 };
 
-export default Header;
+function mapStateToProps(state, ownProps) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps, { getUser, logout })(Header);
